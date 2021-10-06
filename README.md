@@ -2,6 +2,7 @@
 Author: Heitor Silveira (heitorsilveirafurb@gmail.com)
 
 iOS App to view games from various platforms, their description, release date and metacritic ratings including a favorites list.
+
 Developed as the final project for my Udacity iOS Nanodegree course.
 
 ## Implementation
