@@ -29,14 +29,14 @@ class SearchViewController : UIViewController {
     @IBOutlet weak var tfSearch: UITextField!
     @IBOutlet weak var loadingView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var noGamesFoundLabel: UILabel!
+    @IBOutlet weak var resultLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupFetchedFavoritesController()
         tfSearch.delegate = self
         self.tfSearch.text = searchQuery
-        self.noGamesFoundLabel.isHidden = true
+        self.resultLabel.isHidden = true
         self.collectionView.isHidden = true
         self.loadingView.isHidden = false
         self.activityIndicator.startAnimating()
@@ -51,10 +51,10 @@ class SearchViewController : UIViewController {
     func searchGame(appendResult: Bool) {
         if let text = tfSearch.text {
             if !appendResult {
-            self.noGamesFoundLabel.isHidden = true
-            self.collectionView.isHidden = true
-            self.loadingView.isHidden = false
-            self.activityIndicator.startAnimating()
+                self.resultLabel.isHidden = true
+                self.collectionView.isHidden = true
+                self.loadingView.isHidden = false
+                self.activityIndicator.startAnimating()
             } else {
                 showToast(message: "Loading...")
             }
@@ -86,16 +86,22 @@ class SearchViewController : UIViewController {
         }
         
         guard let response = response else {
-            if appendResults {return}
-            self.searchResultsList = []
-            self.collectionView.isHidden = true
-            self.noGamesFoundLabel.isHidden = false
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
+            if let error = error?.localizedDescription, error.localizedStandardContains("offline")  || error.localizedStandardContains( "Could not connect to the server") {    self.resultLabel.isHidden = false
+                self.resultLabel.text = "Could not connect to server."
+                self.collectionView.isHidden = true
+            } else {
+                if appendResults{return}
+                self.searchResultsList = []
+                self.collectionView.isHidden = true
+                self.resultLabel.text = "No games found."
+                self.resultLabel.isHidden = false
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             }
             return
         }
-        self.noGamesFoundLabel.isHidden = true
+        self.resultLabel.isHidden = true
         if !appendResults{
             self.searchResultsList = response.results
         } else {
@@ -135,7 +141,7 @@ class SearchViewController : UIViewController {
 extension SearchViewController : UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        self.collectionView.scrollToItem(at: IndexPath.init(item: 0, section: 1), at: .top, animated: true)
+        self.collectionView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
         self.page = 1
         searchGame(appendResult: false)
         return true

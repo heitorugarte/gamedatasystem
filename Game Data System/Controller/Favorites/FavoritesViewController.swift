@@ -85,10 +85,12 @@ extension FavoritesViewController : UICollectionViewDataSource, UICollectionView
         if let cell = collectionView.cellForItem(at: indexPath) as? GameCell {
             animatePress(cellView: cell.contentView)
             let game = fetchedFavoritesListController.object(at: indexPath)
+            cell.activityIndicator.startAnimating()
             RawgApi.getGameDetails(id: game.id, completion: {response, error in
+                cell.activityIndicator.stopAnimating()
                 DispatchQueue.main.async {
                     guard let response = response else {
-                        self.showToast(message: "Could not fetch game details!")
+                        self.showToast(message: "Could not connect to server.")
                         return
                     }
                     let gameDetailsVc = self.storyboard?.instantiateViewController(withIdentifier: "details") as! GameDetailsViewController

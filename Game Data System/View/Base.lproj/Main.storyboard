@@ -90,6 +90,10 @@
                                                         <constraint firstAttribute="height" constant="200" id="ECg-KD-9P5"/>
                                                     </constraints>
                                                 </imageView>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="HrR-Ow-Mb7">
+                                                    <rect key="frame" x="131.5" y="106.5" width="37" height="37"/>
+                                                    <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </activityIndicatorView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game Title" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wJv-U9-nST" userLabel="Game Title">
                                                     <rect key="frame" x="8" y="200" width="284" height="50"/>
                                                     <constraints>
@@ -118,6 +122,8 @@
                                                 <constraint firstItem="wJv-U9-nST" firstAttribute="top" secondItem="UtW-KG-4Vf" secondAttribute="bottom" id="MN0-of-PaS"/>
                                                 <constraint firstItem="UtW-KG-4Vf" firstAttribute="leading" secondItem="IUa-QW-aua" secondAttribute="leading" id="eKp-hE-dbJ"/>
                                                 <constraint firstItem="8Ew-hv-Qto" firstAttribute="top" secondItem="IUa-QW-aua" secondAttribute="top" constant="10" id="eLa-ev-vhc"/>
+                                                <constraint firstItem="HrR-Ow-Mb7" firstAttribute="centerY" secondItem="IUa-QW-aua" secondAttribute="centerY" id="eyI-pv-eTP"/>
+                                                <constraint firstItem="HrR-Ow-Mb7" firstAttribute="centerX" secondItem="IUa-QW-aua" secondAttribute="centerX" id="gIu-zr-qge"/>
                                                 <constraint firstAttribute="trailing" secondItem="UtW-KG-4Vf" secondAttribute="trailing" id="yR3-X9-5oa"/>
                                             </constraints>
                                         </collectionViewCellContentView>
@@ -128,6 +134,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
+                                            <outlet property="activityIndicator" destination="HrR-Ow-Mb7" id="gcB-f4-Iph"/>
                                             <outlet property="btFavorite" destination="8Ew-hv-Qto" id="Tn7-gg-zjQ"/>
                                             <outlet property="imageView" destination="UtW-KG-4Vf" id="cqL-em-Wuh"/>
                                             <outlet property="titleLabel" destination="wJv-U9-nST" id="W4L-xY-Xyc"/>
@@ -166,7 +173,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="keg-pv-yB2" userLabel="Loading View">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="keg-pv-yB2" userLabel="Loading View">
                                 <rect key="frame" x="0.0" y="96" width="375" height="522"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LUj-vc-i7e">
@@ -1044,22 +1051,83 @@
                                     <constraint firstItem="gWQ-uj-52L" firstAttribute="bottom" secondItem="s1W-WK-Tjb" secondAttribute="top" constant="-20" id="uNG-Fh-DDH"/>
                                 </constraints>
                             </scrollView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uwa-EP-Vvl" userLabel="Error View">
+                                <rect key="frame" x="0.0" y="96" width="375" height="522"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oops!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GqF-ef-zEH" userLabel="Error Label">
+                                        <rect key="frame" x="162" y="248.5" width="51.5" height="25.5"/>
+                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="21"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unable to connect to RawgApi. Check your network connection." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EKV-fO-Qhn" userLabel="Error Description">
+                                        <rect key="frame" x="20" y="289" width="335" height="50.5"/>
+                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="21"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icloud.slash.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="S2q-cx-Byw" userLabel="Error Image">
+                                        <rect key="frame" x="127.5" y="31" width="120" height="197.5"/>
+                                        <color key="tintColor" systemColor="systemRedColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="120" id="zAX-ry-JIs"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yvy-ND-8I4">
+                                        <rect key="frame" x="20" y="389.5" width="335" height="36"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="20"/>
+                                        <state key="normal" title="Retry">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="titleShadowColor" red="0.12549020350000001" green="0.12549020350000001" blue="0.12549020350000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="handleRetryConnection:" destination="bhj-3W-bJ4" eventType="touchUpInside" id="wFY-XA-PgP"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.20899483560000001" green="0.22001543639999999" blue="0.23228976130000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" red="0.20899483560000001" green="0.22001543639999999" blue="0.23228976130000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="GqF-ef-zEH" firstAttribute="top" secondItem="S2q-cx-Byw" secondAttribute="bottom" constant="20" id="4EP-FR-2FP"/>
+                                    <constraint firstItem="GqF-ef-zEH" firstAttribute="centerX" secondItem="uwa-EP-Vvl" secondAttribute="centerX" id="C06-op-A88"/>
+                                    <constraint firstItem="S2q-cx-Byw" firstAttribute="centerX" secondItem="uwa-EP-Vvl" secondAttribute="centerX" id="CWr-3p-3Ua"/>
+                                    <constraint firstItem="Yvy-ND-8I4" firstAttribute="leading" secondItem="uwa-EP-Vvl" secondAttribute="leading" constant="20" id="Hxw-3H-bFO"/>
+                                    <constraint firstItem="Yvy-ND-8I4" firstAttribute="top" secondItem="EKV-fO-Qhn" secondAttribute="bottom" constant="50" id="OIB-lx-AP9"/>
+                                    <constraint firstItem="EKV-fO-Qhn" firstAttribute="top" secondItem="GqF-ef-zEH" secondAttribute="bottom" constant="15" id="Q3m-Iq-yQt"/>
+                                    <constraint firstAttribute="trailing" secondItem="EKV-fO-Qhn" secondAttribute="trailing" constant="20" id="RYo-ja-UEW"/>
+                                    <constraint firstItem="S2q-cx-Byw" firstAttribute="top" secondItem="uwa-EP-Vvl" secondAttribute="top" constant="30" id="YNV-ao-vE8"/>
+                                    <constraint firstItem="GqF-ef-zEH" firstAttribute="centerY" secondItem="uwa-EP-Vvl" secondAttribute="centerY" id="dh4-fg-FwM"/>
+                                    <constraint firstItem="EKV-fO-Qhn" firstAttribute="leading" secondItem="uwa-EP-Vvl" secondAttribute="leading" constant="20" id="h3G-H4-iPE"/>
+                                    <constraint firstAttribute="trailing" secondItem="Yvy-ND-8I4" secondAttribute="trailing" constant="20" id="l4j-5y-ZL1"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="8HQ-Rn-Rgp"/>
-                        <color key="backgroundColor" red="0.12549019607843137" green="0.12549019607843137" blue="0.12549019607843137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.12549020350000001" green="0.12549020350000001" blue="0.12549020350000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="8HQ-Rn-Rgp" firstAttribute="bottom" secondItem="keg-pv-yB2" secondAttribute="bottom" id="3Er-La-iCE"/>
                             <constraint firstItem="keg-pv-yB2" firstAttribute="leading" secondItem="8HQ-Rn-Rgp" secondAttribute="leading" id="53L-Ha-wRU"/>
+                            <constraint firstItem="8HQ-Rn-Rgp" firstAttribute="trailing" secondItem="uwa-EP-Vvl" secondAttribute="trailing" id="7aw-or-y40"/>
+                            <constraint firstItem="uwa-EP-Vvl" firstAttribute="top" secondItem="8HQ-Rn-Rgp" secondAttribute="top" id="Arc-Tz-LKb"/>
                             <constraint firstItem="2Dx-UY-5ig" firstAttribute="top" secondItem="8HQ-Rn-Rgp" secondAttribute="top" id="GDL-BB-oaR"/>
                             <constraint firstItem="keg-pv-yB2" firstAttribute="top" secondItem="8HQ-Rn-Rgp" secondAttribute="top" id="Gex-El-FHN"/>
                             <constraint firstItem="2Dx-UY-5ig" firstAttribute="trailing" secondItem="8HQ-Rn-Rgp" secondAttribute="trailing" id="PiO-yM-HM5"/>
                             <constraint firstItem="2Dx-UY-5ig" firstAttribute="leading" secondItem="8HQ-Rn-Rgp" secondAttribute="leading" id="Si6-Yb-c4i"/>
+                            <constraint firstItem="8HQ-Rn-Rgp" firstAttribute="bottom" secondItem="uwa-EP-Vvl" secondAttribute="bottom" id="dBy-GS-Cro"/>
                             <constraint firstItem="2Dx-UY-5ig" firstAttribute="bottom" secondItem="8HQ-Rn-Rgp" secondAttribute="bottom" id="ick-Ct-9Vf"/>
                             <constraint firstItem="8HQ-Rn-Rgp" firstAttribute="trailing" secondItem="keg-pv-yB2" secondAttribute="trailing" id="oRc-oh-1HN"/>
+                            <constraint firstItem="uwa-EP-Vvl" firstAttribute="leading" secondItem="8HQ-Rn-Rgp" secondAttribute="leading" id="pFn-QA-Tka"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" image="gamecontroller.fill" catalog="system" id="kAA-I2-XUt"/>
                     <connections>
+                        <outlet property="errorView" destination="uwa-EP-Vvl" id="pHn-FI-2le"/>
                         <outlet property="loadingView" destination="keg-pv-yB2" id="jKP-ZV-kFW"/>
                         <outlet property="mainContentScrollView" destination="2Dx-UY-5ig" id="dJM-OU-eD7"/>
                         <outlet property="nintendoGamesCollectionView" destination="pCP-kH-HHw" id="Az4-lO-kK4"/>
@@ -1225,7 +1293,7 @@
                         <outlet property="activityIndicator" destination="qNR-mV-zbd" id="D6C-Kd-Qes"/>
                         <outlet property="collectionView" destination="NLX-9g-X7g" id="oWf-vZ-4ET"/>
                         <outlet property="loadingView" destination="GWk-X4-leh" id="50F-yL-EAQ"/>
-                        <outlet property="noGamesFoundLabel" destination="pJY-yp-6gz" id="y3g-sE-gUA"/>
+                        <outlet property="resultLabel" destination="pJY-yp-6gz" id="y3g-sE-gUA"/>
                         <outlet property="tfSearch" destination="Oaz-Ki-PNr" id="34d-ku-mkG"/>
                     </connections>
                 </viewController>
@@ -1403,6 +1471,7 @@
         <image name="gamecontroller.fill" catalog="system" width="128" height="80"/>
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="heart.fill" catalog="system" width="128" height="109"/>
+        <image name="icloud.slash.fill" catalog="system" width="128" height="101"/>
         <image name="metacritic-logo" width="401" height="401"/>
         <image name="nintendo-logo" width="1280" height="985"/>
         <image name="pc-logo" width="539" height="467"/>

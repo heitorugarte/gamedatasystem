@@ -59,6 +59,7 @@ class HomeViewController : UIViewController {
     @IBOutlet weak var nintendoGamesCollectionView: UICollectionView!
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var tfSearch: UITextField!
+    @IBOutlet weak var errorView: UIView!
     
     //MARK: UIViewController Overrides
     override func viewDidLoad() {
@@ -96,6 +97,7 @@ class HomeViewController : UIViewController {
     
     fileprivate func fetchHomeGames() {
         loadingView.isHidden = false
+        self.errorView.isHidden = true
         mainContentScrollView.isHidden = true
         
         RawgApi.getTopMetacriticGames(page: topRatedPage, completion: {response, error in
@@ -118,6 +120,9 @@ class HomeViewController : UIViewController {
     
     private func handleGamesResponse(category: GameCategories, gamesListResponse : GetGamesListResponse?, error: Error?) {
         guard let gamesListResponse = gamesListResponse else {
+            self.loadingView.isHidden = true
+            self.mainContentScrollView.isHidden = true
+            self.errorView.isHidden = false
             return
         }
         switch category {
@@ -151,6 +156,7 @@ class HomeViewController : UIViewController {
         }
         
         if loadedPcGames, loadedTopRated, loadedRecentlyReleased, loadedPlaystationGames, loadedXboxGamesList {
+            self.errorView.isHidden = true
             self.loadingView.isHidden = true
             self.mainContentScrollView.isHidden = false
         }
@@ -228,6 +234,9 @@ class HomeViewController : UIViewController {
         }, completion: {(isCompleted) in
             toastLabel.removeFromSuperview()
         })
+    }
+    @IBAction func handleRetryConnection(_ sender: Any) {
+        self.fetchHomeGames()
     }
 }
 
@@ -355,10 +364,13 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         default:
             game = self.topRatedList[indexPath.item]
         }
+        cell.activityIndicator.startAnimating()
         RawgApi.getGameDetails(id: game.id, completion: {response, error in
             DispatchQueue.main.async {
+                cell.activityIndicator.stopAnimating()
                 guard let response = response else {
-                    self.showToast(message: "Could not fetch game details!")
+                    self.mainContentScrollView.isHidden = true
+                    self.errorView.isHidden = false
                     return
                 }
                 let gameDetailsVc = self.storyboard?.instantiateViewController(withIdentifier: "details") as! GameDetailsViewController
