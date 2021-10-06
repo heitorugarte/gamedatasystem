@@ -6,10 +6,11 @@ Developed as the final project for my Udacity iOS Nanodegree course.
 
 ## Implementation
 Implemented in Swift using Core Data to persist the user's favorited games locally on their device.
+
 To list the games and their details, the RawgApi was used (https://rawg.io/apidocs)
 
 ## How to build
-Clone or download this project, open the .xcodeproj file and run the app through Xcode.
+Clone or download this repository, open the .xcodeproj file and run the app through Xcode.
 
 ## Requirements
 XCode 12
